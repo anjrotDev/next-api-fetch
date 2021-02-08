@@ -1,18 +1,21 @@
 import { createContext, useEffect, useReducer } from "react";
 import moviesReducer from "./moviesReducer";
 import { getMovies } from "../../helpers/crud";
+import { cleanData } from "../../helpers/cleanData";
 
 export const movieContext = createContext();
 
 export const GET_MOVIES = "GET_MOVIES";
 export const GET_MOVIE_BY_ID = "GET_MOVIE_BY_ID";
 export const GET_CHARACTERS = "GET_CHARACTERS";
+export const SEARCH_MOVIES = "SEARCH_MOVIES";
 
 const MovieWrapper = ({ children }) => {
   const initialState = {
     movies: [],
     movie: {},
-    characters: []
+    characters: [],
+    searchMovie: []
   };
 
   const [state, dispatch] = useReducer(moviesReducer, initialState);
@@ -38,9 +41,19 @@ const MovieWrapper = ({ children }) => {
   };
 
   const getCharacters = payload => {
+    const cleanPayload = cleanData(payload, "profile_path");
     dispatch({
       type: GET_CHARACTERS,
-      payload
+      payload: cleanPayload
+    });
+  };
+
+  const searchMovies = payload => {
+    const cleanPayload = cleanData(payload, "backdrop_path");
+
+    dispatch({
+      type: SEARCH_MOVIES,
+      payload: cleanPayload
     });
   };
 
@@ -50,8 +63,10 @@ const MovieWrapper = ({ children }) => {
         movies: state.movies,
         movie: state.movie,
         characters: state.characters,
+        searchMovie: state.searchMovie,
         getMovieById,
-        getCharacters
+        getCharacters,
+        searchMovies
       }}
     >
       {children}

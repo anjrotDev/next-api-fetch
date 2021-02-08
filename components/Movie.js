@@ -4,8 +4,7 @@ import { Col, Container, Row, Image } from "react-bootstrap";
 import Collapsed from "./ui/Collapse";
 
 const Movie = () => {
-  const { movie, characters } = useContext(movieContext);
-  console.log("_movie :>> ", characters);
+  const { movie } = useContext(movieContext);
 
   return (
     <Container>

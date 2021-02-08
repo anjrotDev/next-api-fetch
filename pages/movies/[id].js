@@ -5,7 +5,6 @@ import Movie from "../../components/Movie";
 import { getMovies } from "../../helpers/crud";
 
 const MovieId = ({ data }) => {
-  console.log("data :>> ", data);
   const { movie, characters } = data;
   const { getCharacters, getMovieById } = useContext(movieContext);
 
@@ -31,7 +30,6 @@ export async function getServerSideProps(ctx) {
       characters: await getMovies(`/movie/${id}/credits`)
     }
   ]);
-  console.log("result :>> ", result);
   return {
     props: {
       data: result
